@@ -74,16 +74,46 @@ def add_linked_lists(l1, l2):
 
     Returns: head node of linked list of sum in "reverse-digit" format.
     """
-    num1 = int(l1.as_rev_string())
-    num2 = int(l2.as_rev_string())
-    total = str(num1 + num2)
+    # num1 = int(l1.as_rev_string())
+    # num2 = int(l2.as_rev_string())
+    # total = str(num1 + num2)
 
-    head = Node(-1)
+    # head = Node(-1)
+    # dummy = head
+
+    # while total:
+    #     head.next = Node(int(total[-1]))
+    #     total = total[:-1]
+    #     head = head.next
+
+    # return dummy.next
+    # -------Above solution worked! --------------------------------------
+
+    head = Node(None)
     dummy = head
+    carry_over_digit = 0
 
-    while total:
-        head.next = Node(int(total[-1]))
-        total = total[:-1]
+    while l1 or l2:
+        if l1:
+            digit1 = l1.data
+            l1 = l1.next
+        else:
+            digit1 = 0
+
+        if l2:
+            digit2 = l2.data
+            l2 = l2.next
+        else:
+            digit2 = 0
+
+        new_digit = digit1 + digit2 + carry_over_digit
+        carry_over_digit, new_digit = divmod(new_digit,10)
+
+        head.next = Node(new_digit)
+        head = head.next
+
+    if carry_over_digit:
+        head.next = Node(carry_over_digit)
         head = head.next
 
     return dummy.next
